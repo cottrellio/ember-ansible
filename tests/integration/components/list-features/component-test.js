@@ -18,20 +18,18 @@ test('it renders', function(assert) {
 
   assert.equal(this.$().length, 1);
 
-  andThen(function() {
-    // Setup db.
-    let users         = server.createList('user', 10);
-    let tags          = server.createList('tag', 10);
+  // Setup db.
+  let users         = server.createList('user', 10);
+  let tags          = server.createList('tag', 10);
 
-    Array.from(Array(10).keys()).map(() => {
-      server.create('feature', { creatorId: users[getRandomInt(0, users.length - 1)].id, tagIds: [tags[getRandomInt(0, tags.length - 1)].id] });
-    });
+  for (var i = 0; i < 10; i++) {
+    server.create('feature', { creatorId: users[getRandomInt(0, users.length - 1)].id, tagIds: [tags[getRandomInt(0, tags.length - 1)].id] });
+  }
 
-    this.features = server.db['features'];
+  this.features = server.db['features'];
 
-    this.render(hbs`{{list-features features=features}}`);
+  this.render(hbs`{{list-features features=features}}`);
 
-    assert.equal(this.$('tr').length, this.features.length + 1);
-  });
+  assert.equal(this.$('tr').length, this.features.length + 1);
 
 });
