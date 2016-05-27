@@ -1,53 +1,89 @@
-# Ember-ansible
+# Setting up a TDD Environment w/ Ember-cli-mirage
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+### Requirements:
+- ember-cli@2.5.1
+- ember-cli-mirage@0.2.0-beta.9 (latest beta)
 
-## Prerequisites
+## Setup App with Mirage
 
-You will need the following things properly installed on your computer.
+1. New App
+```
+ember new ember-ansible
+```
 
-* [Git](http://git-scm.com/)
-* [Node.js](http://nodejs.org/) (with NPM)
-* [Bower](http://bower.io/)
-* [Ember CLI](http://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
+2. Create Models
+```
+ember g model user
+ember g model feature
+ember g model tag
+```
 
-## Installation
+3. Create Routes
+```
+ember g route users -p
+ember g route features -p
+```
 
-* `git clone <repository-url>` this repository
-* change into the new directory
-* `npm install`
-* `bower install`
+4. Install Mirage (latest beta [v0.2.0-beta.9])
+```
+ember install ember-cli-mirage@beta --save-dev
+ember g ember-cli-mirage
+```
 
-## Running / Development
+5. Create Mirage Models
+Mirage models only define relationships.
+```
+ember g mirage-model user
+ember g mirage-model feature
+ember g mirage-model tag
+```
 
-* `ember server`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+6. Create Mirage Factories
+Mirage factories only define attributes.
+```
+ember g mirage-factory user
+ember g mirage-factory feature
+ember g mirage-factory tag
+```
 
-### Code Generators
+7. Use JSON-API Serializer
+```
+// /mirage/serializers/application.js
+import { JSONAPISerializer } from 'ember-cli-mirage';
 
-Make use of the many generators for code, try `ember help generate` for more details
+export default JSONAPISerializer.extend({
+});
+```
 
-### Running Tests
+8. Configure Default Scenario
 
-* `ember test`
-* `ember test --server`
+## TDD Some Stuff Using Mirage Data
 
-### Building
+1. Run your tests!
+```
+ember t
+```
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+2. Fix Model Associations in unit tests.
 
-### Deploying
+3. Create Features Controller
+```
+ember g controller features -p
+```
 
-Specify what it takes to deploy your app.
+4. Create list-features component
+```
+ember g component list-features -p
+```
 
-## Further Reading / Useful Links
+5. Create test-helper `bootstrap-mirage`
+```
+ember g test-helper bootstrap-mirage
+```
 
-* [ember.js](http://emberjs.com/)
-* [ember-cli](http://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+6. Import bootstrap-mirage into list-features integration test
+```
+import startMirage from '../../../helpers/setup-mirage-for-integration';
+```
 
+7.

@@ -1,0 +1,24 @@
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Creator</th>
+        <th>Vote</th>
+        <th>Tags</th>
+    </tr>
+    <tbody>
+        {{#each features as |feature|}}
+            <tr>
+                <td>{{feature.title}}</td>
+                <td>{{feature.description}}</td>
+                <td>{{feature.creator.name}}</td>
+                <td>{{feature.vote}}</td>
+                <td>
+                    {{#each feature.tags as |tag|}}
+                        {{tag.name}},
+                    {{/each}}
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

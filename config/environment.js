@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'ember-ansible',
+    modulePrefix: 'ansible',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
